@@ -1,0 +1,20 @@
+﻿body {
+    /* padding-top: 50px; */
+    padding-bottom: 20px;
+}
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.di-card {
+    background-color: #000;
+    text-align: center;
+}
+
+.di-card-separator {
+    margin-bottom: 8px;    
+}
