@@ -21,10 +21,8 @@ namespace DiApp
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel(options =>
-                {
-                    options.Listen(IPAddress.Loopback, 59998);
-                })
+                .UseUrls("http://*:59998")
+                .UseKestrel()
                 .Build();
     }
 }
