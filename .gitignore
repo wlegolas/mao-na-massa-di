@@ -24,7 +24,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 # Visual Studio Code debug options directory
-.vscode
+.vscode/
 
 # Visual Studio 2015 cache/options directory
 .vs/
