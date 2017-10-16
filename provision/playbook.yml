@@ -1,0 +1,35 @@
+---
+- hosts: vagrant
+  become: true
+
+  vars:
+    app: /home/vagrant/di-traning/
+    user: vagrant
+
+  roles:
+     - ocha.dotnet-core
+     - geerlingguy.git
+
+  tasks:
+  - name: "Cloning app repository"
+    git:  repo=https://github.com/wlegolas/mao-na-massa-di.git
+          dest=/home/vagrant/di-traning/
+          accept_hostkey=yes
+          force=yes
+          recursive=no
+
+  - name: "Make my directory tree readable"
+    file:
+      path: /home/vagrant/di-traning/
+      owner: vagrant
+      mode: 0777
+      recurse: yes
+
+  - name: "Restore nuget packages"
+    command: dotnet restore /home/vagrant/di-traning/DiApp
+
+  - name: "Build project"
+    command: dotnet build /home/vagrant/di-traning/DiApp
+
+  - name: "Publish project"
+    command: dotnet publish /home/vagrant/di-traning/DiApp -o /var/legolas-di-app
