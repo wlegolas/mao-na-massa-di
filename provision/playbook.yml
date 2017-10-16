@@ -3,33 +3,35 @@
   become: true
 
   vars:
-    app: /home/vagrant/di-traning/
-    user: vagrant
+    - app: /home/vagrant/di-traning
+    - user: vagrant
+    - app_name: DiApp
+    - publish_path: /var/legolas-di-app
 
-  roles:
-     - ocha.dotnet-core
-     - geerlingguy.git
+  # roles:
+  #    - ocha.dotnet-core
+  #    - geerlingguy.git
 
   tasks:
   - name: "Cloning app repository"
     git:  repo=https://github.com/wlegolas/mao-na-massa-di.git
-          dest=/home/vagrant/di-traning/
+          dest={{ app }}
           accept_hostkey=yes
           force=yes
           recursive=no
 
   - name: "Make my directory tree readable"
     file:
-      path: /home/vagrant/di-traning/
-      owner: vagrant
-      mode: 0777
-      recurse: yes
+      path={{ app }}
+      owner={{ user }}
+      mode=0775
+      recurse=yes
 
   - name: "Restore nuget packages"
-    command: dotnet restore /home/vagrant/di-traning/DiApp
+    command: dotnet restore {{ app }}/{{ app_name }}
 
   - name: "Build project"
-    command: dotnet build /home/vagrant/di-traning/DiApp
+    command: dotnet build {{ app }}/{{ app_name }}
 
   - name: "Publish project"
-    command: dotnet publish /home/vagrant/di-traning/DiApp -o /var/legolas-di-app
+    command: dotnet publish {{ app }}/{{app_name}} -o {{ publish_path }}
