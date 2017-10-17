@@ -5,11 +5,3 @@
 [vagrant:vars]
 ansible_ssh_user=vagrant
 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
-
-[aws]
-192.168.60.5
-
-# Variables that will be applied to all servers
-[aws:vars]
-ansible_ssh_user=woliveir
-ansible_ssh_private_key_file=~/.ssh.d/id_rsa

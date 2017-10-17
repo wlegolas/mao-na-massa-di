@@ -1,15 +1,27 @@
 ---
-- hosts: vagrant
-  vars:
-    - app: /home/{{ ansible_ssh_user }}/di-traning
-    - user: vagrant
-    - app_name: DiApp
-    - publish_path: /var/legolas-di-app
-    - service_name: kestrel-legolas-di-app.service
+- hosts: all
+  become: yes
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      become: yes
+      apt: update_cache=yes cache_valid_time=3600
 
   roles:
      - ocha.dotnet-core
      - geerlingguy.git
+
+- hosts: all
+  vars:
+    - app: /home/{{ ansible_ssh_user }}/di-traning
+    - app_name: DiApp
+    - publish_path: /var/legolas-di-app
+    - service_name: kestrel-legolas-di-app.service
+
+  pre_tasks:
+    - name: Update apt cache if needed.
+      become: yes
+      apt: update_cache=yes cache_valid_time=3600
 
   tasks:
   - name: "Cloning app repository"
@@ -47,7 +59,11 @@
       path=/etc/systemd/system/{{ service_name }}
       state=present
       regexp='.*\%user%$'
-      line="User={{ user }}"
+      line="User={{ ansible_ssh_user }}"
+
+  - name: "Stop/Disable service: {{ service_name }}" 
+    command: systemctl stop {{ service_name }}
+  - command: systemctl disable {{ service_name }}
 
   - name: "Enable service: {{ service_name }}" 
     command: systemctl enable {{ service_name }}

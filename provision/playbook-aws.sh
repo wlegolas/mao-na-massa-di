@@ -1,0 +1,1 @@
+ansible-playbook -i inventories/aws/inventory playbook.yml -v
