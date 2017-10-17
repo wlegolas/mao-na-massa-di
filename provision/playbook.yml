@@ -1,7 +1,5 @@
 ---
 - hosts: vagrant
-  become: true
-
   vars:
     - app: /home/{{ ansible_ssh_user }}/di-traning
     - user: vagrant
@@ -20,13 +18,6 @@
           accept_hostkey=yes
           force=yes
           recursive=no
-
-  # - name: "Make my directory tree readable"
-  #   file:
-  #     path={{ app }}
-  #     owner={{ user }}
-  #     mode=0777
-  #     recurse=yes
 
   - name: "Restore nuget packages"
     command: dotnet restore {{ app }}/{{ app_name }}
@@ -53,13 +44,13 @@
   
   - name: "Set who will execute service"
     lineinfile:
-      path: /etc/systemd/system/{{ service_name }}
-      state: present
-      regexp: '^%user'
-      line: {{ user }}
+      path=/etc/systemd/system/{{ service_name }}
+      state=present
+      regexp='.*\%user%$'
+      line="User={{ user }}"
 
   - name: "Enable service: {{ service_name }}" 
     command: systemctl enable {{ service_name }}
 
-  # - name: "Start service: {{ service_name }}"
-  #   command: systemctl start {{ service_name }}
+  - name: "Start service: {{ service_name }}"
+    command: systemctl start {{ service_name }}
