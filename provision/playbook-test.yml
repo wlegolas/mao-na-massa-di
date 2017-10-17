@@ -1,0 +1,22 @@
+---
+- hosts: vagrant
+  become: true
+  # vars:
+  #   - app: /home/vagrant/di-traning
+  #   - user: vagrant
+  #   - app_name: DiApp
+  #   - publish_path: /var/legolas-di-app
+
+  tasks:
+  # - name: "Create file"
+  #   file:
+  #     path=/home/vagrant/legolas.conf
+  #     state=touch
+  #     mode=0777
+
+  - name: "Copy file"
+    copy:
+      src=/home/vagrant/legolas.conf
+      remote_src=yes
+      dest=/etc/foo.conf
+      mode=0777

@@ -3,14 +3,15 @@
   become: true
 
   vars:
-    - app: /home/vagrant/di-traning
+    - app: /home/{{ ansible_ssh_user }}/di-traning
     - user: vagrant
     - app_name: DiApp
     - publish_path: /var/legolas-di-app
+    - service_name: kestrel-legolas-di-app.service
 
-  # roles:
-  #    - ocha.dotnet-core
-  #    - geerlingguy.git
+  roles:
+     - ocha.dotnet-core
+     - geerlingguy.git
 
   tasks:
   - name: "Cloning app repository"
@@ -20,12 +21,12 @@
           force=yes
           recursive=no
 
-  - name: "Make my directory tree readable"
-    file:
-      path={{ app }}
-      owner={{ user }}
-      mode=0775
-      recurse=yes
+  # - name: "Make my directory tree readable"
+  #   file:
+  #     path={{ app }}
+  #     owner={{ user }}
+  #     mode=0777
+  #     recurse=yes
 
   - name: "Restore nuget packages"
     command: dotnet restore {{ app }}/{{ app_name }}
@@ -35,3 +36,30 @@
 
   - name: "Publish project"
     command: dotnet publish {{ app }}/{{app_name}} -o {{ publish_path }}
+
+  - name: "Copy service file - Startup script" 
+    copy:
+      src={{ app }}/server_configs/startup.sh
+      dest={{ publish_path }}/startup.sh
+      remote_src=yes
+      mode=0755
+
+  - name: "Copy service file - Service metadata" 
+    copy:
+      src={{ app }}/server_configs/{{ service_name }}
+      dest=/etc/systemd/system/{{ service_name }}
+      remote_src=yes
+      #mode=0755
+  
+  - name: "Set who will execute service"
+    lineinfile:
+      path: /etc/systemd/system/{{ service_name }}
+      state: present
+      regexp: '^%user'
+      line: {{ user }}
+
+  - name: "Enable service: {{ service_name }}" 
+    command: systemctl enable {{ service_name }}
+
+  # - name: "Start service: {{ service_name }}"
+  #   command: systemctl start {{ service_name }}
