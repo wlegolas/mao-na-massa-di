@@ -1,5 +1,5 @@
 [aws]
-ec2-13-58-186-167.us-east-2.compute.amazonaws.com
+ec2-18-221-178-11.us-east-2.compute.amazonaws.com
 
 # Variables that will be applied to all servers
 [aws:vars]
