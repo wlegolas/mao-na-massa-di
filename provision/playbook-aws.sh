@@ -1,1 +1,1 @@
-ansible-playbook -i inventories/aws/inventory playbook.yml -v
+ansible-playbook -i inventories/aws/inventory playbook.yml -v --ask-pass
