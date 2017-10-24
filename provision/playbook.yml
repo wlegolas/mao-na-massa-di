@@ -51,7 +51,6 @@
       src={{ app }}/server_configs/{{ service_name }}
       dest=/etc/systemd/system/{{ service_name }}
       remote_src=yes
-      #mode=0755
   
   - name: "Set who will execute service"
     lineinfile:
@@ -59,13 +58,8 @@
       state=present
       regexp='.*\%user%$'
       line="User={{ ansible_ssh_user }}"
-
-  - name: "Stop/Disable service: {{ service_name }}" 
-    command: systemctl stop {{ service_name }}
-  - command: systemctl disable {{ service_name }}
-
-  - name: "Enable service: {{ service_name }}" 
-    command: systemctl enable {{ service_name }}
-
-  - name: "Start service: {{ service_name }}"
-    command: systemctl start {{ service_name }}
+  
+  # Reload service, in all cases
+  - service:
+      name={{ service_name }}
+      state=reloaded
