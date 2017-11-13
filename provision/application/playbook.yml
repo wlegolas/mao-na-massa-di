@@ -17,6 +17,7 @@
     - app_name: DiApp
     - publish_path: /home/{{ ansible_ssh_user }}/publish/di-traning
     - service_name: kestrel-legolas-di-app.service
+    - repo_url: https://github.com/wlegolas/mao-na-massa-di.git
 
   pre_tasks:
     - name: Update apt cache if needed.
@@ -24,11 +25,7 @@
 
   tasks:
   - name: "Cloning app repository"
-    git:  repo=https://github.com/wlegolas/mao-na-massa-di.git
-          dest={{ app }}
-          accept_hostkey=yes
-          force=yes
-          recursive=no
+    git: repo={{repo_url}} dest={{ app }}
 
   - name: "Restore nuget packages"
     command: dotnet restore {{ app }}/{{ app_name }}
@@ -58,6 +55,10 @@
       state=present
       regexp='.*\%user%$'
       line="User={{ ansible_ssh_user }}"
+  
+  - name: "Stop/Disable service: {{ service_name }}" 
+    command: systemctl stop {{ service_name }}
+  - command: systemctl disable {{ service_name }}
   
   # Reload service, in all cases
   - service:
