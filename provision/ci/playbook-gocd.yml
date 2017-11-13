@@ -1,0 +1,30 @@
+---
+- hosts: ci
+  become: true
+  tasks:
+    - name: Installing repo for Java 8 in Ubuntu
+      apt_repository: repo='ppa:openjdk-r/ppa'
+
+- hosts: ci
+  become: true
+  pre_tasks:
+    - name: Update apt cache if needed.
+      apt: 
+        update_cache: yes 
+        cache_valid_time: 3600
+  roles:
+    - role: geerlingguy.java
+      java_packages:
+        - openjdk-8-jdk
+    - role: sansible.gocd_server
+      gocd_server:
+        dependencies:
+          skip_java: yes
+        aws:
+          install_cli: no
+    - name: sansible.gocd_agent
+      gocd_agent:
+        dependencies:
+          skip_java: yes
+        aws:
+          install_cli: no

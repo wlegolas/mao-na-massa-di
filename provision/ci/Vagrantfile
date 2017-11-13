@@ -5,22 +5,23 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "bento/ubuntu-16.04"
-  config.vm.network :private_network, ip: "192.168.60.5"
-  config.vm.hostname = "maonamassa.dev"   
+  config.vm.network :private_network, ip: "192.168.60.10"
+  config.vm.hostname = "maonamassa.gocd"   
   config.ssh.insert_key = false
   # Not mount the vagrant local diretory
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider :virtualbox do |vm|
-    # Customize the amount of memory on the VM:
-    vm.memory = 256
+    vm.name = "vm_gocd"
+    vm.memory = 2048
+    vm.cpus = 2
   end
 
   # Ansible provisioner.
   config.vm.provision :ansible do |ansible|
-    ansible.playbook = "playbook.yml"
+    ansible.playbook = "playbook-gocd.yml"
     ansible.become = true
-    ansible.inventory_path = "inventories/vagrant/inventory"
+    ansible.inventory_path = "inventories/gocd/inventory"
     ansible.limit = "all"
     ansible.galaxy_role_file = "requirements.yml"
   end

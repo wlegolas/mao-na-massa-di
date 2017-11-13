@@ -1,0 +1,1 @@
+ansible-playbook -i inventories/gocd/inventory playbook-gocd.yml -v --ask-pass

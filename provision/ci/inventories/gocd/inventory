@@ -1,0 +1,7 @@
+[ci]
+192.168.60.10
+
+# Variables that will be applied to all servers
+[ci:vars]
+ansible_ssh_user=vagrant
+ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
