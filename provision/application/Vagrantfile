@@ -12,7 +12,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.synced_folder ".", "/vagrant", disabled: true
 
   config.vm.provider :virtualbox do |vm|
-    # Customize the amount of memory on the VM:
+    vm.name = "vm_app"
     vm.memory = 256
   end
 
