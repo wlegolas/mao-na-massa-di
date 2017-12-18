@@ -1,4 +1,5 @@
 ---
 - src: geerlingguy.java
+- src: ocha.dotnet-core
 - src: sansible.gocd_server
 - src: sansible.gocd_agent

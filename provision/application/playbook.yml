@@ -27,15 +27,6 @@
   - name: "Cloning app repository"
     git: repo={{repo_url}} dest={{ app }}
 
-  - name: "Restore nuget packages"
-    command: dotnet restore {{ app }}/{{ app_name }}
-
-  - name: "Build project"
-    command: dotnet build {{ app }}/{{ app_name }}
-
-  - name: "Publish project"
-    command: dotnet publish {{ app }}/{{app_name}} -o {{ publish_path }}
-
   - name: "Copy service file - Startup script" 
     copy:
       src={{ app }}/server_configs/startup.sh
@@ -61,6 +52,6 @@
   - command: systemctl disable {{ service_name }}
   
   # Reload service, in all cases
-  - service:
-      name={{ service_name }}
-      state=reloaded
+  #- service:
+      #name={{ service_name }}
+      #state=reloaded

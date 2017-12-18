@@ -13,6 +13,7 @@
         update_cache: yes 
         cache_valid_time: 3600
   roles:
+    - role: ocha.dotnet-core
     - role: geerlingguy.java
       java_packages:
         - openjdk-8-jdk
