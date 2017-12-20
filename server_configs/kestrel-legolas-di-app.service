@@ -2,9 +2,9 @@
     Description=Run Legolas DiApp service
 
     [Service]
-    ExecStart=/home/woliveir/publish/di-traning/startup.sh
-    ReadWriteDirectories=/home/woliveir/publish/di-traning
-    WorkingDirectory=/home/woliveir/publish/di-traning
+    ExecStart=/var/legolas-di-app/di-app/publish/startup.sh
+    ReadWriteDirectories=/var/legolas-di-app/di-app/publish
+    WorkingDirectory=/var/legolas-di-app/di-app/publish
     Restart=always
     RestartSec=10
     SyslogIdentifier=legolas_diapp_service

@@ -5,4 +5,3 @@ ec2-18-221-178-11.us-east-2.compute.amazonaws.com
 [aws:vars]
 ansible_ssh_user=woliveir
 ansible_ssh_private_key_file=~/.ssh/id_rsa
-service_name=kestrel-legolas-di-app.service
