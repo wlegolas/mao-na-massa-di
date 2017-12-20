@@ -5,4 +5,4 @@
 [vagrant:vars]
 ansible_ssh_user=vagrant
 ansible_ssh_private_key_file=~/.vagrant.d/insecure_private_key
-service_name=kestrel-legolas-di-app.service
+service_name=kestrel-legolas-di-app.dev.service

@@ -1,0 +1,15 @@
+[Unit]
+    Description=Run Legolas DiApp service
+
+    [Service]
+    ExecStart=/home/vagrant/publish/di-traning/startup.sh
+    ReadWriteDirectories=/home/vagrant/publish/di-traning
+    WorkingDirectory=/home/vagrant/publish/di-traning
+    Restart=always
+    RestartSec=10
+    SyslogIdentifier=legolas_diapp_service
+    User=%user%
+    Environment=ASPNETCORE_ENVIRONMENT=Develop
+
+    [Install]
+    WantedBy=multi-user.target
