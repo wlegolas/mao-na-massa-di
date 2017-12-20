@@ -52,6 +52,6 @@
   - command: systemctl disable {{ service_name }}
   
   # Reload service, in all cases
-  #- service:
-      #name={{ service_name }}
-      #state=reloaded
+  - service:
+      name={{ service_name }}
+      state=reloaded
