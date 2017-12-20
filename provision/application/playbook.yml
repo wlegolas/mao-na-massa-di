@@ -13,9 +13,9 @@
 - hosts: all
   become: yes
   vars:
-    - app: /home/{{ ansible_ssh_user }}/di-traning
+    - provision_path: /home/{{ ansible_ssh_user }}/di-provision
     - app_name: DiApp
-    - publish_path: /home/{{ ansible_ssh_user }}/publish/di-traning
+    - publish_path: /var/legolas-di-app/di-app/publish
     - repo_url: https://github.com/wlegolas/mao-na-massa-di.git
 
   pre_tasks:
@@ -23,19 +23,35 @@
       apt: update_cache=yes cache_valid_time=3600
 
   tasks:
+  - name: "Generate the SSH key for user {{ ansible_ssh_user }}"
+    user:
+      name={{ ansible_ssh_user }}
+      generate_ssh_key=yes
+      ssh_key_bits=2048
+      ssh_key_file=.ssh/id_rsa
+
   - name: "Cloning app repository"
-    git: repo={{repo_url}} dest={{ app }}
+    git: repo={{repo_url}} dest={{ provision_path }}
+
+  - name: "Creates directory to publish the application"
+    file:
+      path={{ publish_path }}
+      state=directory
+      owner={{ ansible_ssh_user }}
+      group={{ ansible_ssh_user }}
+      mode=0775
+      recurse=yes
 
   - name: "Copy service file - Startup script" 
     copy:
-      src={{ app }}/server_configs/startup.sh
+      src={{ provision_path }}/server_configs/startup.sh
       dest={{ publish_path }}/startup.sh
       remote_src=yes
       mode=0755
 
   - name: "Copy service file - Service metadata" 
     copy:
-      src={{ app }}/server_configs/{{ service_name }}
+      src={{ provision_path }}/server_configs/{{ service_name }}
       dest=/etc/systemd/system/{{ service_name }}
       remote_src=yes
   
@@ -54,11 +70,3 @@
   - service:
       name={{ service_name }}
       state=reloaded
-
-  - name: "Creates directory to publish the application"
-    file:
-      path=/var/legolas-di-app
-      state=directory
-      owner={{ ansible_ssh_user }}
-      group={{ ansible_ssh_user }}
-      mode=0775

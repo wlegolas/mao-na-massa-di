@@ -29,3 +29,10 @@
           skip_java: yes
         aws:
           install_cli: no
+  tasks:
+  - name: "Generate the SSH key for user go"
+    user:
+      name=go
+      generate_ssh_key=yes
+      ssh_key_bits=2048
+      ssh_key_file=.ssh/id_rsa
