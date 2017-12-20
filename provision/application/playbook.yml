@@ -15,7 +15,7 @@
   vars:
     - provision_path: /home/{{ ansible_ssh_user }}/di-provision
     - app_name: DiApp
-    - publish_path: /var/legolas-di-app/di-app/publish
+    - publish_path: /var/legolas-di-app
     - service_name: kestrel-legolas-di-app.service
     - repo_url: https://github.com/wlegolas/mao-na-massa-di.git
 
