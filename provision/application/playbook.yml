@@ -54,3 +54,11 @@
   - service:
       name={{ service_name }}
       state=reloaded
+
+- name: Creates directory to publish the application
+  file:
+    path: /var/legolas-di-app
+    state: directory
+    owner: {{ ansible_ssh_user }}
+    group: {{ ansible_ssh_user }}
+    mode: 0775

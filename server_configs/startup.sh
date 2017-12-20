@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ -d "/var/legolas-di-app" ] 
+if [ -d "/var/legolas-di-app/di-app/publish" ] 
 then
-  dotnet /var/legolas-di-app/DiApp.dll
+  dotnet /var/legolas-di-app/di-app/publish/DiApp.dll
 fi
