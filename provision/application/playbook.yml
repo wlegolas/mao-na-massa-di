@@ -16,7 +16,6 @@
     - app: /home/{{ ansible_ssh_user }}/di-traning
     - app_name: DiApp
     - publish_path: /home/{{ ansible_ssh_user }}/publish/di-traning
-    - service_name: kestrel-legolas-di-app.service
     - repo_url: https://github.com/wlegolas/mao-na-massa-di.git
 
   pre_tasks:
